@@ -15,16 +15,16 @@ Simplifying daily commutes,VoyageShare is a dynamic carpooling and ride-sharing 
 
 ## Features
 
-- 
-- 
-- 
-- 
+- Car Pooling : Users can look out for co-travellers travelling in the same route
+- Sharing Rides: Users can act as drivers and provide rides to the co-travellers
+- Gives the shortest route using Graph Theory
+-  Cost Saving: The total cost of the ride is shared between the driver and the passengers.
 
 ## Tech Stack
 
 - **Django**: Used for backend server 
-- **SQLite**: A relational database for storing subscription and payment data.
-- **ClickHouse**: A columnar database for efficient and scalable data analysis.
+- **SQLite**: A relational database for storing  data.
+- **BootStrap**: Used for frontend
 
 
 ## Installation
