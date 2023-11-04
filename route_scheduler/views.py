@@ -35,4 +35,5 @@ def find_voyager(request):
     data = json.loads(request.body.decode('utf-8'))
     route=data["route"]
     route_array=data["array"]
+    print(route_array)
     return JsonResponse({"data":"Done"})
