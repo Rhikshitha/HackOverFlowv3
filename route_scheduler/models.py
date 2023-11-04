@@ -39,13 +39,11 @@ class RoutePlan(models.Model):
 
 class Ride(models.Model):
     driver = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='rides_offered')
-    passengers = models.ManyToManyField(CustomUser, related_name='rides_taken', blank=True)
+    passengers = models.ManyToManyField(CustomUser, related_name='rides_taken',null=True, blank=True)
     max_capacity=models.IntegerField()
     filled_capacity = models.IntegerField(default=0)
     route_plan=models.OneToOneField(RoutePlan, on_delete=models.CASCADE)
-   # start_location =  # gis_models.PointField(geography=True, null=True, blank=True)
-   # end_location = gis_models.PointField(geography=True, null=True, blank=True)
-    date = models.DateTimeField()
+    date = models.DateTimeField(null=True,blank=True)
     
 class RideRequest(models.Model):
     requester = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='requests_made')
