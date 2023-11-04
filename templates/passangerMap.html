@@ -107,11 +107,10 @@
         document.getElementById('sendRoute').addEventListener('click', function () {
             // Create a POST request with the route in the body
             const routeData = {
-                source: sourceCoordinates,
-                destination: destinationCoordinates
+                route:route
             };
 
-            fetch('https://example.com/api/sendRoute', {
+            fetch('http://127.0.0.1:8000/set_route', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
