@@ -5,7 +5,8 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
 from .utils import *
-from django.views.decorators.http import require_POST
+from .models import *
+import jwtfrom django.views.decorators.http import require_POST
 
 
 # Create your views here.
@@ -37,38 +38,30 @@ def passenger(request):
 
 @csrf_exempt
 def find_voyager(request):
-    data = json.loads(request.body.decode('utf-8'))
-    route=data["route"]
-    route_array=data["array"]
-    print(route_array)
-    return JsonResponse({"data":"Done"})
-
-# @require_POST
-def profile(request):
-     try:
+    try:
         token = request.COOKIES.get('jwt')
         if not token:
-            print(token)
             return redirect("login")
-        try:
-            print(request.method)
-            if (request.method=='POST'):
-                vehiclePreference= request.POST.get("vehiclePreference")
-                genderPreference= request.POST.get("genderPreference")
-                print(vehiclePreference)
-                print(genderPreference)
-                return redirect("/")
-            else:
-                return render(request,"createProfile.html")
-        except Exception as e:
-            return JsonResponse(f"{e}",safe=False)
-        
- 
-        
 
-     except Exception as e:
-        return JsonResponse(f"{e}")
-    
+        data = json.loads(request.body.decode('utf-8'))
+        user_id=jwt.decode(token,'sanjay@123',algorithms='HS256')['id']
+        try:
+            user=CustomUser.objects.get(auth_user_id=user_id)
+        except:
+            return JsonResponse({"message":"user not found"})
+        route=data["route"]
+        route_array=data["array"]
+        source=data["source"]
+        destination=data["destination"]
+        
+        print(source,destination,user.values())
+        return JsonResponse({"message":"success"})
+    except Exception as e:
+         return JsonResponse({"message":f"failed:{e}"})
+
+
+
+
 
 
 def driver(request):
