@@ -76,6 +76,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'voyageshare.wsgi.application'
 
+GDAL_LIBRARY_PATH=os.environ['GDAL_LIBRARY_PATH'] 
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
