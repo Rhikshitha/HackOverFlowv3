@@ -3,7 +3,7 @@ from .views import *
 
 urlpatterns = [
     path('',home,name="home"),
-    path('passenger',passenger,name="passenger"),
-    path('set_route',set_route,name="set_route"),
+    path('passenger/',passenger,name="passenger"),
+    path('set_route/',set_route,name="set_route"),
 
 ]

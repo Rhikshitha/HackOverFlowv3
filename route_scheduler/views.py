@@ -4,6 +4,7 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 
 # Create your views here.
+
 def home(request):
     try:
         token = request.COOKIES.get('jwt')
@@ -33,7 +34,5 @@ def passenger(request):
 def set_route(request):
     data = json.loads(request.body.decode('utf-8'))
     route=data["route"]
-    source=data["source"]
-    destination=data["destination"]
-    print(source,destination)
+    route_array=data["array"]
     return JsonResponse({"data":"Done"})
