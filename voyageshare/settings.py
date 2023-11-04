@@ -76,7 +76,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'voyageshare.wsgi.application'
 
-GDAL_LIBRARY_PATH=os.environ['GDAL_LIBRARY_PATH'] 
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
@@ -146,4 +145,4 @@ EMAIL_HOST_PASSWORD=os.getenv("EMAIL_PASSWORD")
 
 
 
-GDAL_LIBRARY_PATH = "D:/1Downloads/release-1916-gdal-3-7-2-mapserver-8-0-1/bin/gdal.dll"
+# GDAL_LIBRARY_PATH = "D:/1Downloads/release-1916-gdal-3-7-2-mapserver-8-0-1/bin/gdal.dll"
