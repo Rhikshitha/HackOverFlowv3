@@ -151,6 +151,14 @@
 
             <h2>Set Per Km Price</h2>
             <input type="text" id="perKmPrice">
+
+            <h2>Set Date</h2>
+            <input type="date" id="route_date">
+
+            <h2>Set Time</h2>
+            <input type='time' id="route_time">
+
+
         </div>
 
         <div style="margin-top: 5px;">
@@ -238,14 +246,18 @@
             // Create a POST request with the route in the body
             const vehicleCapacity = document.getElementById("vehicleCapacity").value;
             const perKmPrice = document.getElementById("perKmPrice").value;
+            const route_date=document.getElementById("route_date").value;
+            const route_time=document.getElementById("route_time").value;
 
             const routeData = {
-                route:route,
-                vehicleCapacity,
-                perKmPrice
+                array:array,
+                capacity: vehicleCapacity,
+                price:perKmPrice,
+                route_date:route_date,
+                route_time:route_time,
             };
-
-            fetch('https://example.com/api/sendRoute', {
+            console.log(routeData);
+            fetch('http://127.0.0.1:8000/driver/createrouteplan/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

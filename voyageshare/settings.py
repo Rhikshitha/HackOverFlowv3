@@ -43,7 +43,7 @@ INSTALLED_APPS = [
 
     'authentication',
     'route_scheduler',
-    
+    'driver',
 ]
 
 MIDDLEWARE = [

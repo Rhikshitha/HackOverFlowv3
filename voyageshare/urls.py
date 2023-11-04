@@ -21,4 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('auth/',include('authentication.urls')),
     path('',include('route_scheduler.urls')),
+    path('driver/',include('driver.urls')),
 ]

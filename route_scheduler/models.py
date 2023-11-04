@@ -1,4 +1,5 @@
 from django.db import models
+from authentication.models import User
 # from django.contrib.gis.db import models as  # gis_models
 
 class CustomUser(models.Model):
@@ -16,13 +17,17 @@ class CustomUser(models.Model):
         ('F', 'Female'),
         ('A', 'Any Gender'),
     ]
-    email = models.CharField(max_length=50)
-    customer_name=models.CharField(max_length=200)
+    name = models.CharField(max_length=100)
+    email = models.CharField(max_length=100, unique=True)
+    gender = models.CharField(
+        max_length=1,
+        choices=GENDER_CHOICES,
+        default='O',
+    )
+    auth_user_id=models.IntegerField(primary_key=True)
     vehicle_preference = models.CharField(max_length=20, choices=PREFERENCES)
-    gender = models.CharField(max_length=1, choices=GENDER_CHOICES, blank=True, null=True)
     gender_preference=models.CharField(max_length=1, choices=GENDER_PREFERENCE_CHOICES, blank = True, null=True) 
-    # current_location= # gis_models.PointField(geography=True, null=True, blank=True)
-    route_plan=models.ForeignKey('RoutePlan',on_delete=models.CASCADE)
+    route_plan=models.ForeignKey('RoutePlan',on_delete=models.CASCADE,null=True,blank=True)
     
 class RoutePlan(models.Model):
     user_mapped = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='route_plans')
@@ -30,11 +35,14 @@ class RoutePlan(models.Model):
     end_location = models.CharField(max_length=200)
     date = models.DateField()
     time = models.TimeField()
-    is_recurring = models.BooleanField(default=False)
+    is_recurring = models.BooleanField(default=False,null=True,blank=True)
 
 class Ride(models.Model):
     driver = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='rides_offered')
     passengers = models.ManyToManyField(CustomUser, related_name='rides_taken', blank=True)
+    max_capacity=models.IntegerField()
+    filled_capacity = models.IntegerField(default=0)
+    route_plan=models.OneToOneField(RoutePlan, on_delete=models.CASCADE)
    # start_location =  # gis_models.PointField(geography=True, null=True, blank=True)
    # end_location = gis_models.PointField(geography=True, null=True, blank=True)
     date = models.DateTimeField()
