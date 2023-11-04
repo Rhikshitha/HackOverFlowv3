@@ -14,16 +14,6 @@
         type="text/css">
 
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            font-family: Arial, sans-serif;
-        }
-
         h1 {
             background-color: #007ACC;
             color: #fff;
@@ -49,17 +39,96 @@
         }
 
         .coordinates {
+            width: 80%;
             text-align: center;
+            padding: 20px;
+            background-color: #f7f7f7;
+            border-radius: 5px;
+            margin: 0 auto;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
-        h2 {
-            font-size: 18px;
+        .coordinates h2 {
+            font-size: 20px;
+            margin: 10px 0;
+            color: #333;
         }
 
-        p {
+        .coordinates p {
             font-size: 16px;
             margin: 10px 0;
         }
+
+        #sendRoute {
+            background-color: #007ACC;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #sendRoute:hover {
+            background-color: #005FAC;
+        }
+
+
+        #routes,
+        #passengersList {
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+
+        }
+
+
+
+        /* Center-align the content */
+        section {
+            width: 80%;
+            /* Set the width to 100% */
+            margin: 0 auto;
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+
+        /* Style headings */
+        h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        /* Style the list items */
+        ul {
+            list-style: none;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        /* Apply styles to strong tags for emphasis */
+        strong {
+            font-weight: bold;
+        }
+
+        /* Style span elements with content */
+        span {
+            color: #007ACC;
+        }
+
+        /* Add some spacing for passenger details */
+        ul#passengersList {
+            margin-left: 20px;
+        }
+
+        /* Apply a different background color for even-numbered passenger items */
     </style>
 </head>
 
@@ -76,8 +145,37 @@
         <h2>Destination Coordinates</h2>
         <p id="destination-coordinates">Destination Coordinates</p>
 
-        <button id="sendRoute">Send Route</button>
+        <div style="margin-top: 5px;">
+            <button id="sendRoute">Req Routes</button>
+        </div>
     </div>
+    <section>
+        <h2>Your Routes:</h2>
+        <ul id="routes">
+            <li>
+                <strong>Driver Name</strong> <span id="driverName">Content</span>
+            </li>
+            <li>
+                <strong>Source Location:</strong> <span id="sourceLocation">Content</span>
+            </li>
+            <li>
+                <strong>Destination Location:</strong> <span id="destinationLocation">Content</span>
+            </li>
+            <li>
+                <strong>Drive start Time:</strong> <span id="startTime">Content</span>
+            </li>
+            <li>
+                <strong>Max Capacity:</strong> <span id="maxCapacity">Content</span>
+            </li>
+            <li>
+                <strong>Charge per Kilometer:</strong> <span id="chargePerKm">Content</span>
+            </li>
+            <li>
+                <strong>Request Status : </strong> <span id="status">Content</span>
+            </li>
+            
+        </ul>
+    </section>
 
     <script>
         mapboxgl.accessToken = 'pk.eyJ1Ijoic2VsdmVuZHJhbiIsImEiOiJja3p1dWQ5bzExaDRiMnVvaDA3aGU2OW1rIn0.x4VmV7NvMYYyturLV3aHqw';
@@ -94,11 +192,11 @@
 
         map.addControl(directions, 'top-left');
 
-        let route,source,destination;
+        let route;
         directions.on('route', function (e) {
             route = e.route[0];
-            source = route.legs[0].steps[0].maneuver.location;
-            destination = route.legs[0].steps[route.legs[0].steps.length - 1].maneuver.location;
+            const source = route.legs[0].steps[0].maneuver.location;
+            const destination = route.legs[0].steps[route.legs[0].steps.length - 1].maneuver.location;
 
             document.getElementById('source-coordinates').textContent = 'Source Coordinates: ' + source;
             document.getElementById('destination-coordinates').textContent = 'Destination Coordinates: ' + destination;
@@ -106,12 +204,15 @@
 
         document.getElementById('sendRoute').addEventListener('click', function () {
             // Create a POST request with the route in the body
+            const vehicleCapacity = document.getElementById("vehicleCapacity").value;
+            const perKmPrice = document.getElementById("perKmPrice").value;
+
             const routeData = {
                 route:route,
-                source:source,
-                destination:destination
+               
             };
-            fetch('http://127.0.0.1:8000/set_route', {
+
+            fetch('https://example.com/api/sendRoute', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
