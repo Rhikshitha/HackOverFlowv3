@@ -145,4 +145,4 @@ EMAIL_HOST_PASSWORD=os.getenv("EMAIL_PASSWORD")
 
 
 
-# GDAL_LIBRARY_PATH = "D:/1Downloads/release-1916-gdal-3-7-2-mapserver-8-0-1/bin/gdal.dll"
+# GDAL_LIBRARY_PATH = ""

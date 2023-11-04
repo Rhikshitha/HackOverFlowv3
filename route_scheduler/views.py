@@ -31,7 +31,7 @@ def passenger(request):
 
 
 @csrf_exempt
-def set_route(request):
+def find_voyager(request):
     data = json.loads(request.body.decode('utf-8'))
     route=data["route"]
     route_array=data["array"]
