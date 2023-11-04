@@ -19,14 +19,12 @@ def createrouteplan(request):
         route_array=data["array"]
         date=data['route_date']
         time=data['route_time']
+        capacity=data['capacity']
         source=route_array[0]
         destination=route_array[-1]
         try:
             user_id=jwt.decode(token,'sanjay@123',algorithms='HS256')['id']
-            print(user_id)
             user=CustomUser.objects.get(auth_user_id=user_id)
-            print(user)
-            print("Ellam technology")
             try:
                 route_plan = RoutePlan.objects.update_or_create(
                     user_mapped=user,
@@ -34,14 +32,20 @@ def createrouteplan(request):
                     end_location=destination,
                     date=date,
                     time=time,
-            )
-                print("TEst")
-                route_plan.save()
+                )
+                try:
+                    ride=Ride.objects.update_or_create(
+                        driver=user,
+                        max_capacity=capacity,
+                        route_plan=route_plan[0]
+                    )
+                    ride.save()
+                except Exception as e:
+                    print("Ride",e)
             except Exception as e:
-                print(e)
+                print("Route_Plan",e)
         except Exception as e:
-            print("Ex:",e)
-        
+            print("Total:",e)
         return JsonResponse({"data":"Success"})
     except Exception as e:
         return HttpResponse(f"{e}")
