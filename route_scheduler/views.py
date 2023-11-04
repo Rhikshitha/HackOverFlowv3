@@ -1,6 +1,7 @@
 from django.shortcuts import render,HttpResponse
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+import json
 
 # Create your views here.
 def home(request):
@@ -11,6 +12,6 @@ def passenger(request):
 
 @csrf_exempt
 def set_route(request):
-    source=request.POST.get("source")
-    destination=request.POST.get("destination")
+    data = json.loads(request.body.decode('utf-8'))
+    print(data)
     return JsonResponse({"data":"Done"})
