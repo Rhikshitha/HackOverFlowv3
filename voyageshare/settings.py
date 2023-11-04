@@ -142,3 +142,7 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = '200701212@rajalakshmi.edu.in'
 EMAIL_HOST_PASSWORD=os.getenv("EMAIL_PASSWORD")
+
+
+
+GDAL_LIBRARY_PATH = "D:/1Downloads/release-1916-gdal-3-7-2-mapserver-8-0-1/bin/gdal.dll"

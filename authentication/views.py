@@ -103,13 +103,9 @@ def login(request):
                         'exp':datetime.datetime.utcnow() + datetime.timedelta(days=7),
                         'iat':datetime.datetime.utcnow()
                     } 
-                    print(payload)
                     token = jwt.encode(payload, 'sanjay@123', algorithm='HS256')
-                    print("token:",token)
-                    response = redirect("")
-                    print("JHIO")
+                    response = redirect("/")
                     response.set_cookie(key='jwt', value=token, httponly=True)
-                    print("Dei")
                     return response
                 else:
                     d["show"]=1
@@ -127,7 +123,7 @@ def login(request):
 
 def logout(request):
     try:
-        response = redirect("login")
+        response = redirect("/auth/login")
         response.delete_cookie('jwt')
         return response
     except Exception as e:

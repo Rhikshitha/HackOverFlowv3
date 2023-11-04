@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.gis.db import models as gis_models
+# from django.contrib.gis.db import models as  # gis_models
 
 class CustomUser(models.Model):
     GENDER_CHOICES = [
@@ -21,7 +21,7 @@ class CustomUser(models.Model):
     vehicle_preference = models.CharField(max_length=20, choices=PREFERENCES)
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES, blank=True, null=True)
     gender_preference=models.CharField(max_length=1, choices=GENDER_PREFERENCE_CHOICES, blank = True, null=True) 
-    current_location=gis_models.PointField(geography=True, null=True, blank=True)
+    # current_location= # gis_models.PointField(geography=True, null=True, blank=True)
     route_plan=models.ForeignKey('RoutePlan',on_delete=models.CASCADE)
     
 class RoutePlan(models.Model):
@@ -35,8 +35,8 @@ class RoutePlan(models.Model):
 class Ride(models.Model):
     driver = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='rides_offered')
     passengers = models.ManyToManyField(CustomUser, related_name='rides_taken', blank=True)
-    start_location = gis_models.PointField(geography=True, null=True, blank=True)
-    end_location = gis_models.PointField(geography=True, null=True, blank=True)
+   # start_location =  # gis_models.PointField(geography=True, null=True, blank=True)
+   # end_location = gis_models.PointField(geography=True, null=True, blank=True)
     date = models.DateTimeField()
     
 class RideRequest(models.Model):
