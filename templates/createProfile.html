@@ -15,7 +15,8 @@
                 <div class="card shadow">
                     <div class="card-body">
                         <h1 class="text-center mb-4">Profile</h1>
-                        <form id="profileForm">
+                        <form id="profileForm" action="/profile/" method="post">
+                            {% csrf_token %}
                             <div class="mb-3">
                                 <label for="vehiclePreference" class="form-label">Vehicle Preference:</label>
                                 <div class="form-check">
@@ -58,37 +59,7 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        document.getElementById('profileForm').addEventListener('submit', function (event) {
-            event.preventDefault();
-
-            var vehiclePreference = document.querySelector('input[name="vehiclePreference"]:checked').value;
-            var genderPreference = Array.from(document.querySelectorAll('input[name="genderPreference"]:checked')).map(function (checkbox) {
-                return checkbox.value;
-            });
-
-            var data = {
-                vehiclePreference: vehiclePreference,
-                genderPreference: genderPreference
-            };
-
-            console.log(data);
-
-            fetch('http://127.0.0.1:8000/createProfile', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            }).then(function (response) {
-                return response.json();
-            }).then(function (data) {
-                console.log(data);
-            }).catch(function (error) {
-                console.error('Error:', error);
-            });
-        });
-    </script>
+  
 </body>
 
 </html>

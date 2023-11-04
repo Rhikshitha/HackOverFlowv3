@@ -5,7 +5,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
 from .utils import *
-
+from django.views.decorators.http import require_POST
 
 
 # Create your views here.
@@ -42,6 +42,35 @@ def find_voyager(request):
     route_array=data["array"]
     print(route_array)
     return JsonResponse({"data":"Done"})
+
+# @require_POST
+def profile(request):
+     try:
+        token = request.COOKIES.get('jwt')
+        if not token:
+            print(token)
+            return redirect("login")
+        try:
+            print(request.method)
+            if (request.method=='POST'):
+                vehiclePreference= request.POST.get("vehiclePreference")
+                genderPreference= request.POST.get("genderPreference")
+                print(vehiclePreference)
+                print(genderPreference)
+                return redirect("/")
+            else:
+                return render(request,"createProfile.html")
+        except Exception as e:
+            return JsonResponse(f"{e}",safe=False)
+        
+ 
+        
+
+     except Exception as e:
+        return JsonResponse(f"{e}")
+    
+
+
 def driver(request):
     try:
         token = request.COOKIES.get('jwt')
