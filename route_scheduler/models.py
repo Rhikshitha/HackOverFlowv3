@@ -49,7 +49,7 @@ class Ride(models.Model):
 class RideRequest(models.Model):
     requester = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='requests_made')
     ride = models.ForeignKey(Ride, on_delete=models.CASCADE, related_name='ride_requests')
-    message = models.TextField()
+    message = models.TextField(null=True,blank=True)
     is_accepted = models.BooleanField(default=False)
 
 class CostShare(models.Model):

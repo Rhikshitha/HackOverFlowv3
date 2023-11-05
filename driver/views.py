@@ -104,4 +104,27 @@ def getrouteplan(request):
         return JsonResponse(f"{e}",safe=False)
     
 def getpassengerrequest(request):
-   pass
+    try:
+        token = request.COOKIES.get('jwt')
+        if not token:
+            print(token)
+            return redirect("login")
+        try:
+            user_id=jwt.decode(token,'sanjay@123',algorithms='HS256')['id']
+            print(user_id)
+            data=[]
+            user=CustomUser.objects.get(id=user_id)
+            ride_reqs=RideRequest.objects.all()
+            for ride_req in ride_reqs:
+                ride=ride_req.ride
+                if(ride.driver==user):
+                    temp={
+                        'requester':ride_req.requester,
+                        'ride':ride
+                    }
+                    data.append(temp)
+            return JsonResponse({'requests':data}, safe=False)
+        except Exception as e:
+            print(e)
+    except Exception as e:
+       print(e)
