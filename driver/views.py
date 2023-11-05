@@ -44,6 +44,15 @@ def createrouteplan(request):
                         max_capacity=capacity,
                         route_plan=route_plan[0]
                     )
+                    render_data={
+                        'user_mapped':user,
+                        'start_location':source,
+                        'end_location':destination,
+                        'date':date,
+                        'time':time,
+                        'price':price,
+                        'max_capacity':capacity,
+                    }
                 except Exception as e:
                     print("Ride",e)
             except Exception as e:
@@ -51,6 +60,7 @@ def createrouteplan(request):
         except Exception as e:
             print("Total:",e)
         messages.success(request, 'Route Plan Set!')
+        return render(request,'driverMap.html',render_data)
         return JsonResponse({"data":"Success"})
     except Exception as e:
         return HttpResponse(f"{e}")
@@ -92,3 +102,6 @@ def getrouteplan(request):
             return JsonResponse(f"Inside Try{e}",safe=False)
     except Exception as e:
         return JsonResponse(f"{e}",safe=False)
+    
+def getpassengerrequest(request):
+   pass
