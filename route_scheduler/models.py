@@ -37,6 +37,8 @@ class RoutePlan(models.Model):
     time = models.TimeField()
     is_recurring = models.BooleanField(default=False,null=True,blank=True)
     price=models.FloatField()
+    route_array=models.TextField(default="")
+    # is_driver=models.BooleanField(default=False,null=True,blank=True)
 
 class Ride(models.Model):
     driver = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='rides_offered')

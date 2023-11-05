@@ -9,6 +9,9 @@ from .models import *
 import jwt
 from django.views.decorators.http import require_POST
 from .serializer import CustomUserSerializer
+from datetime import datetime
+from django.utils import timezone
+from .utils import can_pickup_user
 
 
 # Create your views here.
@@ -51,13 +54,34 @@ def find_voyager(request):
             user=CustomUser.objects.get(auth_user_id=user_id)
         except:
             return JsonResponse({"message":"user not found"})
-
-        print(data)
         source=data["source"]
         destination=data["destination"]
+        array=data["array"]
         route_time=data["route_time"]
         route_date=data["route_date"]
-        
+        date_time=route_date+" "+route_time
+        date_time_format = "%Y-%m-%d %H:%M"
+        route_plan = RoutePlan.objects.update_or_create(
+                    user_mapped=user,
+                    start_location=source,
+                    end_location=destination,
+                    date=route_date,
+                    time=route_time,
+                    route_array=array
+        )
+
+        try:
+            passenger_ride_time=datetime.strptime(date_time, date_time_format)
+            time_window_start = passenger_ride_time - timezone.timedelta(minutes=15)
+            time_window_end =  passenger_ride_time + timezone.timedelta(minutes=15)
+            rides_within_time_window = Ride.objects.filter(date__range=(time_window_start, time_window_end))
+            print(rides_within_time_window)
+            for ride in rides_within_time_window:
+                print(ride.filled_capacity)
+            # print(passenger_ride_time,time_window_end,time_window_start)
+        except Exception as e:
+            print("Ride",e)
+
 
         
         return JsonResponse({"message":"success"})

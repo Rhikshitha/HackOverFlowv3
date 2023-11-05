@@ -3,6 +3,8 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
 from route_scheduler.models import *
+from datetime import datetime
+from django.utils import timezone
 import jwt
 from django.contrib import messages
 from geopy.geocoders import Nominatim
@@ -22,6 +24,7 @@ def createrouteplan(request):
         route_array=data["array"]
         date=data['route_date']
         time=data['route_time']
+        array=data["array"]
         capacity=data['capacity']
         price=data['price']
         source=route_array[0]
@@ -29,6 +32,8 @@ def createrouteplan(request):
         try:
             user_id=jwt.decode(token,'sanjay@123',algorithms='HS256')['id']
             user=CustomUser.objects.get(auth_user_id=user_id)
+            date_time=date+" "+time
+            date_time_format = "%Y-%m-%d %H:%M"
             try:
                 route_plan = RoutePlan.objects.update_or_create(
                     user_mapped=user,
@@ -36,13 +41,15 @@ def createrouteplan(request):
                     end_location=destination,
                     date=date,
                     time=time,
+                    array=array
                     price=price,
                 )
                 try:
                     ride=Ride.objects.update_or_create(
                         driver=user,
                         max_capacity=capacity,
-                        route_plan=route_plan[0]
+                        route_plan=route_plan[0],
+                        date=datetime.strptime(date_time, date_time_format)
                     )
                     render_data={
                         'user_mapped':user,
