@@ -239,10 +239,12 @@
 
         document.getElementById('sendRoute').addEventListener('click', function () {
             // Create a POST request with the route in the body
-            const source = document.getElementById("source-coordinates").value
-            const destination = document.getElementById("destination-coordinates").value
+            const source = document.getElementById("source-coordinates").textContent
+            const destination = document.getElementById("destination-coordinates").textContent
             const route_date=document.getElementById("route_date").value;
             const route_time=document.getElementById("route_time").value;
+            console.log(source)
+            console.log(destination)
             const routeData = {
                 source:source,
                 destination:destination,
