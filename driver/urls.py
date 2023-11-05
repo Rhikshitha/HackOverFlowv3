@@ -3,5 +3,6 @@ from .views import *
 
 urlpatterns = [
     path('',driver,name="driver"),
-    path('createrouteplan/',createrouteplan,name="createrouteplan")
+    path('createrouteplan/',createrouteplan,name="createrouteplan"),
+    path('getrouteplan/',getrouteplan,name="getrouteplan")
 ]

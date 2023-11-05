@@ -42,6 +42,7 @@ class Migration(migrations.Migration):
                 ('end_location', models.CharField(max_length=200)),
                 ('date', models.DateField()),
                 ('time', models.TimeField()),
+                ('price', models.FloatField()),
                 ('is_recurring', models.BooleanField(blank=True, default=False, null=True)),
                 ('user_mapped', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='route_plans', to='route_scheduler.customuser')),
             ],
